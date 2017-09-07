@@ -1,7 +1,8 @@
-package com.anahoret.effectiveandroidtesting
+package com.anahoret.effectiveandroidtesting.ui
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.anahoret.effectiveandroidtesting.R
 
 class MainActivity: AppCompatActivity() {
 
