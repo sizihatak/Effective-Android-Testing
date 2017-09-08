@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.TextView
 import com.anahoret.effectiveandroidtesting.R
+import com.anahoret.effectiveandroidtesting.data.local.SharedPreferencesFavorites
 import com.anahoret.effectiveandroidtesting.data.model.RecipeStore
 
 class RecipeActivity : AppCompatActivity() {
@@ -25,8 +26,15 @@ class RecipeActivity : AppCompatActivity() {
             return
         }
 
+        val pref = SharedPreferencesFavorites(this)
+        val favorite = pref.get(id)
+
         val (_, title, description) = recipe
         titleView.text = title
+        titleView.isSelected = favorite
+        titleView.setOnClickListener({
+            titleView.isSelected = pref.toogle(id)
+        })
         descriptionView.text = description
     }
 

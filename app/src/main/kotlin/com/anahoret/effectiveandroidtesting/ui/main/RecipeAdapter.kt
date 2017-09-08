@@ -14,6 +14,14 @@ class RecipeAdapter(private val recipeStore: RecipeStore, private val listener: 
         fun onClick(position: Int)
     }
 
+    interface OnClickListener {
+        fun onClick(var1: View)
+    }
+
+    fun setListener(listener: OnRecipeClickListener){
+
+    }
+
     override fun getItemCount(): Int = recipeStore.recipies.size
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecipeViewHolder {
