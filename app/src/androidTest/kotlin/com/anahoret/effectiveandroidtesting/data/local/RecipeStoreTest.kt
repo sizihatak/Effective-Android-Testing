@@ -2,6 +2,7 @@ package com.anahoret.effectiveandroidtesting.data.local
 
 import android.content.Context
 import android.support.test.InstrumentationRegistry
+import com.anahoret.effectiveandroidtesting.data.model.RecipeStore
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Test

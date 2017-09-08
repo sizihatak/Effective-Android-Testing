@@ -29,7 +29,7 @@ object RecipeFactory {
                         title = line.substring(TITLE_PREFIX.length)
                     }
                     line.isNotEmpty() -> {
-                        description.append(line)
+                        description.appendln(line)
                     }
                 }
                 line = bufferReader.readLine()
