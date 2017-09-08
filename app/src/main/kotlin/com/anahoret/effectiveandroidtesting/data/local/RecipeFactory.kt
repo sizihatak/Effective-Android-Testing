@@ -24,17 +24,15 @@ object RecipeFactory {
                 when {
                     line.startsWith(ID_PREFIX) -> {
                         id = line.substring(ID_PREFIX.length)
-                        line = bufferReader.readLine()
                     }
                     line.startsWith(TITLE_PREFIX) -> {
                         title = line.substring(TITLE_PREFIX.length)
-                        line = bufferReader.readLine()
                     }
                     line.isNotEmpty() -> {
                         description.append(line)
-                        line = bufferReader.readLine()
                     }
                 }
+                line = bufferReader.readLine()
             }
         } catch (e: IOException) {
             return null

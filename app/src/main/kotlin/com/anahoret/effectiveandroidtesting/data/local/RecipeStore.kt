@@ -6,13 +6,17 @@ import java.io.File
 import java.io.IOException
 import java.io.InputStream
 
-class RecipeStore(context: Context, directory: String) {
+class RecipeStore(context: Context?, directory: String?) {
 
-    private var recipies: List<Recipe> = listOf()
+    var recipies: List<Recipe> = listOf()
+    private var mapRecipes: Map<String, Recipe> = emptyMap()
 
     init {
-        recipies = getAssetStreams(context.assets, directory)
-                .mapNotNull { RecipeFactory.getRecipeFromAsset(it) }
+        if (context != null && directory != null) {
+            recipies = getAssetStreams(context.assets, directory)
+                    .mapNotNull { RecipeFactory.getRecipeFromAsset(it) }
+            mapRecipes = recipies.associateBy({ it.id }, { it })
+        }
     }
 
     private fun getAssetStreams(manager: AssetManager, directory: String): List<InputStream> {
@@ -28,4 +32,6 @@ class RecipeStore(context: Context, directory: String) {
             emptyArray()
         }
     }
+
+    fun getRecipe(id: String): Recipe? = mapRecipes[id]
 }
