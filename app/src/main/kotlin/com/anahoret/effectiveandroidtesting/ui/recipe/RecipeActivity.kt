@@ -6,8 +6,8 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.TextView
 import com.anahoret.effectiveandroidtesting.R
-import com.anahoret.effectiveandroidtesting.data.local.SharedPreferencesFavorites
 import com.anahoret.effectiveandroidtesting.data.model.RecipeStore
+import com.anahoret.effectiveandroidtesting.injection.RecipeApplication
 
 class RecipeActivity : AppCompatActivity() {
 
@@ -26,7 +26,8 @@ class RecipeActivity : AppCompatActivity() {
             return
         }
 
-        val pref = SharedPreferencesFavorites(this)
+        val app = application as RecipeApplication
+        val pref = app.favorites
         val favorite = pref.get(id)
 
         val (_, title, description) = recipe

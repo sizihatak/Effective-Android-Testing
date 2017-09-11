@@ -16,15 +16,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val recyclerView = findViewById(R.id.recipes) as RecyclerView
         val recipeStore = RecipeStore(this, "recipes")
-        val adapter = RecipeAdapter(recipeStore, object : RecipeAdapter.OnRecipeClickListener {
-            override fun onClick(position: Int) {
-                val intent = Intent(this@MainActivity, RecipeActivity::class.java)
-                intent.putExtra(RecipeActivity.KEY_ID, recipeStore.recipies[position].id)
-                startActivity(intent)
-            }
+        val adapter = RecipeAdapter(recipeStore, { position ->
+            val intent = Intent(this@MainActivity, RecipeActivity::class.java)
+            intent.putExtra(RecipeActivity.KEY_ID, recipeStore.recipies[position].id)
+            startActivity(intent)
         })
         recyclerView.adapter = adapter
         recyclerView.setHasFixedSize(true)
+        recyclerView.setOnClickListener({})
         recyclerView.layoutManager = LinearLayoutManager(this)
     }
 }

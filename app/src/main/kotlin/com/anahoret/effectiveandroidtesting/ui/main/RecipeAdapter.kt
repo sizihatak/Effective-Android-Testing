@@ -8,25 +8,13 @@ import android.widget.TextView
 import com.anahoret.effectiveandroidtesting.R
 import com.anahoret.effectiveandroidtesting.data.model.RecipeStore
 
-class RecipeAdapter(private val recipeStore: RecipeStore, private val listener: OnRecipeClickListener) : RecyclerView.Adapter<RecipeViewHolder>() {
-
-    interface OnRecipeClickListener {
-        fun onClick(position: Int)
-    }
-
-    interface OnClickListener {
-        fun onClick(var1: View)
-    }
-
-    fun setListener(listener: OnRecipeClickListener){
-
-    }
+class RecipeAdapter(private val recipeStore: RecipeStore, private val onClickRecipe: (position: Int) -> Unit) : RecyclerView.Adapter<RecipeViewHolder>() {
 
     override fun getItemCount(): Int = recipeStore.recipies.size
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecipeViewHolder {
         val layoutInflater = LayoutInflater.from(parent?.context)
-        return RecipeViewHolder(layoutInflater.inflate(R.layout.list_item, parent, false), listener)
+        return RecipeViewHolder(layoutInflater.inflate(R.layout.list_item, parent, false), onClickRecipe)
     }
 
     override fun onBindViewHolder(holder: RecipeViewHolder?, position: Int) {
@@ -34,10 +22,10 @@ class RecipeAdapter(private val recipeStore: RecipeStore, private val listener: 
     }
 }
 
-class RecipeViewHolder(itemView: View, listener: RecipeAdapter.OnRecipeClickListener) : RecyclerView.ViewHolder(itemView) {
+class RecipeViewHolder(itemView: View, private val onClickRecipe: (position: Int) -> Unit) : RecyclerView.ViewHolder(itemView) {
     var title: TextView = itemView.findViewById(R.id.name)
 
     init {
-        title.setOnClickListener { listener.onClick(layoutPosition) }
+        title.setOnClickListener { onClickRecipe(layoutPosition) }
     }
 }

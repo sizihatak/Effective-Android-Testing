@@ -2,11 +2,11 @@ package com.anahoret.effectiveandroidtesting.data.local
 
 import android.content.Context
 
-class SharedPreferencesFavorites(context: Context) {
+class SharedPreferencesFavorites(context: Context) : Favorites {
 
     private val pref = context.getSharedPreferences("favorites.xml", Context.MODE_PRIVATE)
 
-    fun get(id: String) = pref.getBoolean(id, false)
+    override fun get(id: String): Boolean = pref.getBoolean(id, false)
 
     private fun put(id: String, favorite: Boolean) {
         val edit = pref.edit()
@@ -18,7 +18,7 @@ class SharedPreferencesFavorites(context: Context) {
         edit.apply()
     }
 
-    fun toogle(id: String):Boolean {
+    override fun toogle(id: String): Boolean {
         val favorite = get(id)
         put(id, !favorite)
         return !favorite
