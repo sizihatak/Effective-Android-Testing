@@ -2,6 +2,9 @@ package com.anahoret.effectiveandroidtesting.data.local
 
 
 class InMemoryFavorites : Favorites {
+    override fun clearAll() {
+        map.clear()
+    }
 
     private val map = mutableMapOf<String, Boolean>()
 
@@ -12,6 +15,7 @@ class InMemoryFavorites : Favorites {
         return !get(id)
     }
 
-    fun put(id: String, value: Boolean) = { map[id] = value }
-
+    override fun put(id: String, favorite: Boolean) {
+        map[id] = favorite
+    }
 }
