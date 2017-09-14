@@ -8,7 +8,7 @@ import java.io.File
 import java.io.IOException
 import java.io.InputStream
 
-class RecipeStore(context: Context?, directory: String?) {
+open class RecipeStore(context: Context?, directory: String?) {
 
     var recipies: List<Recipe> = listOf()
     private var mapRecipes: Map<String, Recipe> = emptyMap()
@@ -35,7 +35,7 @@ class RecipeStore(context: Context?, directory: String?) {
         }
     }
 
-    fun getRecipe(id: String?): Recipe? =
+    open fun getRecipe(id: String?): Recipe? =
             if (id != null) {
                 mapRecipes[id]
             } else {

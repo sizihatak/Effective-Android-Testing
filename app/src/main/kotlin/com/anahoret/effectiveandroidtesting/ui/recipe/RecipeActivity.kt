@@ -9,37 +9,45 @@ import com.anahoret.effectiveandroidtesting.R
 import com.anahoret.effectiveandroidtesting.data.model.RecipeStore
 import com.anahoret.effectiveandroidtesting.injection.RecipeApplication
 
-class RecipeActivity : AppCompatActivity() {
+class RecipeActivity : AppCompatActivity(), RecipeContract.View {
+    private lateinit var titleView: TextView
+    private lateinit var descriptionView: TextView
+
+    companion object {
+        const val KEY_ID = "id"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recipe)
-        val titleView = findViewById(R.id.title) as TextView
-        val descriptionView = findViewById(R.id.description) as TextView
+        titleView = findViewById(R.id.title) as TextView
+        descriptionView = findViewById(R.id.description) as TextView
 
         val id = intent.getStringExtra(KEY_ID)
-
-        val recipe = RecipeStore(this, "recipes").getRecipe(id)
-        if (recipe == null) {
-            titleView.visibility = View.GONE
-            descriptionView.text = getString(R.string.recipe_not_found)
-            return
-        }
+        val store = RecipeStore(this, "recipes")
 
         val app = application as RecipeApplication
-        val pref = app.favorites
-        val favorite = pref.get(id)
+        val favorites = app.favorites
+        val presenter: RecipeContract.Presenter = RecipePresenter(store, this, favorites)
+        presenter.loadRecipe(id)
 
-        val (_, title, description) = recipe
+        titleView.setOnClickListener({ presenter.toggleFavorite() })
+    }
+
+    override fun setTitle(title: String) {
         titleView.text = title
-        titleView.isSelected = favorite
-        titleView.setOnClickListener({
-            titleView.isSelected = pref.toogle(id)
-        })
+    }
+
+    override fun setDescription(description: String) {
         descriptionView.text = description
     }
 
-    companion object {
-        const val KEY_ID = "id"
+    override fun setFavorites(favorite: Boolean) {
+        titleView.isSelected = favorite
+    }
+
+    override fun showRecipeNotFound() {
+        titleView.visibility = View.GONE
+        descriptionView.text = getString(R.string.recipe_not_found)
     }
 }
